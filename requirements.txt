@@ -1,0 +1,12 @@
+ansible==2.9.9
+cffi==1.14.0
+cryptography==2.9.2
+Jinja2==2.11.2
+MarkupSafe==1.1.1
+pycparser==2.20
+PyMySQL==0.9.3
+python-http-client==1.2.3
+PyYAML==5.3.1
+sendgrid==2.2.1
+six==1.15.0
+smtpapi==0.3.1

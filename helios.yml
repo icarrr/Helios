@@ -1,0 +1,44 @@
+---
+- hosts: localhost
+  vars_files:
+    - vars.yml
+  tasks:
+    - name: Get Time by Head Google
+      shell: curl -s https://gist.githubusercontent.com/icarrr/609fbf80767ea76d4e0b9c01401360cc/raw/ec901e0584f13a2e8f9109ab36cf5e435891ceef/linux.sh | bash
+      register: timeByHeadGoogle
+    - name: Dump Databases
+      mysql_db:
+        state: dump
+        name: "{{ mysqldump.database_name }}"
+        target: "{{ mysqldump.target }}/{{ mysqldump.database_name }}-{{ timeByHeadGoogle.stdout }}.sql"
+        login_user: "{{ mysqldump.login_user }}"
+        login_password: "{{ mysqldump.login_password }}"
+    - name: Compress Backup File
+      archive:
+        path: "{{ mysqldump.target }}/{{ mysqldump.database_name }}-{{ timeByHeadGoogle.stdout }}.sql"
+        dest: "{{ mysqldump.target }}/{{ mysqldump.database_name }}-{{ timeByHeadGoogle.stdout }}.tar.gz"
+        format: gz
+        force_archive: yes
+    - name: Delete Original Backup File
+      file:
+        path: "{{ mysqldump.target }}/{{ mysqldump.database_name }}-{{ timeByHeadGoogle.stdout }}.sql"
+        state: absent
+    - name: Prepare Mail Body from Template
+      template:
+        src: ./mail/mail-template.html
+        dest: ./mail/mail-body.html
+    - name: Send Mail
+      sendgrid:
+        api_key: "{{ sendgrid.api_key }}"
+        from_address: "{{ email.from_name }} {{ email.from_address }}"
+        to_addresses:
+          - "{{ email.to_address }}"
+        cc: 
+          - "{{ email.cc_address }}"
+        subject: "Helios Notification | Monthly Backup Databases"
+        body: "{{ lookup('file', './mail/mail-body.html') }}"
+        headers: "Content-type=text/html"
+    - name: Delete Mail Body
+      file:
+        path: ./mail/mail-body.html
+        state: absent

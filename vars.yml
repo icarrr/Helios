@@ -1,0 +1,18 @@
+---
+mysqldump:
+  database_name: 'your_db'
+  target: 'path_backup'
+  login_user: 'db_user'
+  login_password: 'db_password'
+sendgrid:
+  api_key: 'api_key'
+email:
+  from_name: 'Helios Notification'
+  from_address: '<noreply@helios.sibunglon.com>'
+  to_name: 'Helios User'
+  to_address: '<helios@example.com>'
+  cc_address: 
+    - '<helios1@example.com>'
+    - '<helios2@example.com>'
+other:
+  backup_date: 28

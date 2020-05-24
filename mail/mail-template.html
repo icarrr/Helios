@@ -1,0 +1,73 @@
+<html>
+<head>
+	<title>Helios Notification</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet" type="text/css" /><meta name='format-detection' content="telephone=no">
+	<style type="text/css">
+		@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');
+		body{
+			font-family: "Source Sans Pro", sans-serif;
+		}
+		.content {
+			display:block; 
+			text-align: justify;
+			color: black;
+			font-size: 1.9em !important;
+		}
+		.content_list {
+			font-size: 1.7em !important;
+		}
+		table{
+			border-collapse: collapse;
+			/*display: block;*/
+			border-spacing: 0px !important;
+			max-width:702.22px; 
+			width:702.22px;
+			height:auto; 
+
+		}
+		hr{
+			border-color: #c9c9c9;
+		}
+		.table-socmed{
+			text-align: right;
+			padding-left: 10px;
+		}
+		ul li{
+			text-align: left;
+		}
+	</style>
+</head>
+<body>
+	<table style="margin:auto; text-align:center; width:50%; border-spacing: 0px !important">
+		<tbody>
+			<tr>
+				<td style="padding-bottom:20px;"><img src="https://data.whicdn.com/images/191035487/original.jpg" style="width: 700px; height: 30px;" /></td>
+			</tr>
+			<tr>
+				<!-- start content -->
+				<td>
+					<h1 style="padding-top: 2%; text-align: left;">Dear {{ email.to_name }},</h1>
+
+					<p class="content">Terkait email ini, telah dilakukan backup database <b>{{ mysqldump.database_name }}</b>. Proses backup database dilakukan setiap tanggal {{ other.backup_date }}.</p>
+
+					<p class="content">Dikarenakan ukuran file backup database lumayan besar, maka file backup tersebut di kompres. File backup database berada pada server {{ ansible_hostname }}:</p>
+
+					<ul class="content">
+						<li>{{ mysqldump.database_name }}: {{ mysqldump.target }}/{{ mysqldump.database_name }}-{{ timeByHeadGoogle.stdout }}.tar.gz</li>
+					</ul>
+
+					<p class="content"><b>Thanks,</b></p>
+					<p class="content">Valutac Team</p>
+
+					<p> </p>
+				</td>
+				<!-- end content -->
+			</tr>
+			<tr>
+				<td style="padding-bottom:20px;"><img src="https://data.whicdn.com/images/191035487/original.jpg" style="width: 700px; height: 30px;" /></td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>
